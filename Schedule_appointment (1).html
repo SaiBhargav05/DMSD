@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Schedule Appointment</title>
+    <style>
+      label {
+        display: block;
+        margin-bottom: 10px;
+      }
+      input[type="text"], select {
+        width: 100%;
+        padding: 10px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+        box-sizing: border-box;
+        margin-bottom: 20px;
+        font-size: 16px;
+      }
+      input[type="submit"] {
+        background-color: #4CAF50;
+        color: white;
+        padding: 12px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+      }
+      input[type="submit"]:hover {
+        background-color: #45a049;
+      }
+      form {
+        max-width: 600px;
+        margin: 0 auto;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Schedule Appointment</h1>
+    <form>
+      <label for="VIN">VIN:</label>
+      <input type="text" id="VIN" name="VIN" required>
+
+      <label for="service_Type">Service Type:</label>
+      <select id="service_Type" name="serviceType" required>
+        <option value=""></option>
+        <option value="Oil Change">Oil Change</option>
+        <option value="front-end allignment">front-end allignment</option>
+        <option value="breaks">breaks</option>
+        <option value="Tirerepair & replacement">Tirerepair & replacement</option>
+        <option value="enginetune-ups">Engintune-ups</option>
+        <option value="state vechile inspec">state vechile inspec</option>
+      </select>
+
+      <label for="appointmentDate">Appointment Date:</label>
+      <input type="text" id="appointmentDate" name="appointmentDate" placeholder="YYYY-MM-DD" required>
+
+      <input type="submit" value="Schedule Appointment" onclick="scheduleAppointment(); return false;">
+    </form>
+  </body>
+</html>

@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Pending Appointments</title>
+    
+    <style>
+       body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+      }
+      h1 {
+        text-align: center;
+        margin-top: 50px;
+      }
+      form {
+        margin: 50px auto;
+        width: 80%;
+        max-width: 600px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      form label {
+        margin-bottom: 10px;
+        font-size: 18px;
+        font-weight: bold;
+      }
+      form input[type="date"],
+      form input[type="text"] {
+        width: 100%;
+        padding: 10px;
+        border: 2px solid #ccc;
+        border-radius: 4px;
+        margin-bottom: 20px;
+        font-size: 16px;
+      }
+      form input[type="submit"] {
+        background-color: #4caf50;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px;
+        transition: background-color 0.3s ease;
+      }
+      form input[type="submit"]:hover {
+        background-color: #3e8e41;
+      }
+      #pendingAppointmentsList {
+        margin: 50px auto;
+        width: 80%;
+        max-width: 600px;
+        list-style: none;
+        padding: 0;
+      }
+      #pendingAppointmentsList li {
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        padding: 10px;
+        margin-bottom: 10px;
+        font-size: 16px;
+        background-color: #f9f9f9
+      }
+    </style>
+  </head>
+  
+  <body>
+    <h1>Pending Appointments</h1>
+    
+    <form id="pendingAppointmentsForm">
+      <label for="dateInput">Date:</label>
+      <input type="date" id="dateInput" name="dateInput">
+      
+      <label for="locationInput">Location:</label>
+      <input type="text" id="locationInput" name="locationInput">
+      
+      <button type="submit">Search</button>
+    </form>
+    
+    <ul id="pendingAppointmentsList"></ul>
+    
+    <script>
+      // DOM Elements
+      const dateInput = document.querySelector("#dateInput");
+      const locationInput = document.querySelector("#locationInput");
+      const pendingAppointmentsList = document.querySelector("#pendingAppointmentsList");
+
+      // Function to fetch and display the list of pending appointments
+      const getPendingAppointments = async (date, location) => {
+        try {
+          const response = await fetch(`http://localhost:3306/appointments/pending`);
+          const data = await response.json();
+          if (data.length === 0) {
+            pendingAppointmentsList.innerHTML = "No pending appointments found.";
+          } else {
+            let html = "";
+            data.forEach((appointment) => {
+              html += `<li>${appointment.customer_name} - ${appointment.vehicle} - ${appointment.services}</li>`;
+            });
+            pendingAppointmentsList.innerHTML = html;
+          }
+        } catch (err) {
+          console.error(err);
+        }
+      };
+     
+
+
+
+
+    </script>
+  </body>
+</html>
+ 

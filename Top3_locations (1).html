@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Top 3 Locations</title>
+	<style>
+		 body {
+        font-family: Arial, sans-serif;
+      }
+
+      h1 {
+        text-align: center;
+      }
+
+      form {
+        margin: 20px auto;
+        max-width: 600px;
+        display: flex;
+        justify-content: center;
+      }
+
+      label {
+        margin-right: 10px;
+      }
+
+      table {
+        border-collapse: collapse;
+        margin: 0 auto;
+      }
+
+      th,
+      td {
+        padding: 10px;
+        text-align: left;
+        border: 1px solid #ddd;
+      }
+
+      th {
+        background-color: #f2f2f2;
+      }
+    </style>
+  </head>
+  <body>
+	
+	<h1>Top 3 Locations</h1>
+	<form id="topLocationsForm">
+		<label for="startDate">Start Date:</label>
+		<input type="date" id="startDate" name="startDate">
+
+		<label for="endDate">End Date:</label>
+		<input type="date" id="endDate" name="endDate">
+
+		<button type="submit">Get Top Locations</button>
+	</form>
+
+	<table id="topLocationsTable">
+		<!-- Table content will be added dynamically with JavaScript -->
+	</table>
+
+	<script>
+		// Add your provided JavaScript code here
+		const startDate = document.querySelector("#startDate");
+		const endDate = document.querySelector("#endDate");
+		const topLocationsTable = document.querySelector("#topLocationsTable");
+
+		// Fetch top 3 locations by revenue
+		function fetchTopLocations(startDate, endDate) {
+		  fetch(`https://localhost:3306/top-locations`)
+		    .then((response) => response.json())
+		    .then((data) => {
+		      // Clear table
+		      topLocationsTable.innerHTML = "";
+
+		      // Add table header
+		      const tableHeader = `
+		        <tr>
+		          <th>Location ID</th>
+		          <th>Location Name</th>
+		          <th>Total Invoice Amount</th>
+		        </tr>
+		      `;
+		      topLocationsTable.insertAdjacentHTML("beforeend", tableHeader);
+
+		      // Add table rows
+		      data.forEach((row) => {
+		        const tableRow = `
+		          <tr>
+		            <td>${row.loc_id}</td>
+		            <td>${row.street}, ${row.city}, ${row.state}, ${row.zipcode}</td>
+		            <td>$${row.total_invoice_amount.toFixed(2)}</td>
+		          </tr>
+		        `;
+		        topLocationsTable.insertAdjacentHTML("beforeend", tableRow);
+		      });
+		    })
+		    .catch((error) => {
+		      console.error(error);
+		    });
+		}
+
+		// Top Locations Form Event Listener
+		const topLocationsForm = document.querySelector("#topLocationsForm");
+		topLocationsForm.addEventListener("submit", (e) => {
+		  e.preventDefault();
+
+		  // Get user input
+		  const startDateInput = startDate.value;
+		  const endDateInput = endDate.value;
+
+		  // Fetch top 3 locations by revenue
+		  fetchTopLocations(startDateInput, endDateInput);
+		});
+	</script>
+</body>
+</html>

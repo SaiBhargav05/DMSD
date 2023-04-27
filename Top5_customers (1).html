@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Top 5 Customers by Revenue</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+      }
+      h1 {
+        text-align: center;
+        margin-top: 50px;
+      }
+      form {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        margin-top: 50px;
+      }
+      label {
+        margin-right: 10px;
+      }
+      select,
+      input[type="date"] {
+        padding: 5px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        margin-right: 10px;
+      }
+      button {
+        padding: 10px 20px;
+        background-color: #007bff;
+        border: none;
+        color: #fff;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-right: 10px;
+      }
+      button:hover {
+        background-color: #0069d9;
+      }
+      table {
+        margin: 50px auto;
+        border-collapse: collapse;
+        width: 80%;
+        max-width: 800px;
+      }
+      th,
+      td {
+        padding: 10px;
+        text-align: center;
+        border: 1px solid #ccc;
+      }
+      th {
+        background-color: #f2f2f2;
+      }
+      tr:nth-child(even) {
+        background-color: #f2f2f2;
+      }
+      .error-message {
+        color: red;
+        text-align: center;
+        margin-top: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Top 5 Customers by Revenue</h1>
+    <form id="form">
+      <label for="locationId">Location:</label>
+      <select id="locationId">
+        <option value="all">All</option>
+        <option value="1">New York</option>
+        <option value="2">California</option>
+        <option value="3">Texas</option>
+      </select>
+      <label for="startDate">Start Date:</label>
+      <input type="date" id="startDate" name="startDate" required />
+      <label for="endDate">End Date:</label>
+      <input type="date" id="endDate" name="endDate" required />
+      <button type="submit">Get Top 5 Customers</button>
+    </form>
+    <div id="errorMessage" class="error-message"></div>
+    <table id="customerList">
+      <thead>
+        <tr>
+          <th>Rank</th>
+          <th>Customer Name</th>
+          <th>Location</th>
+          <th>Revenue</th>
+        </tr>
+      </thead>
+      <tbody>
+      </tbody>
+    </table>
+    <script>
+      // get the location id, start date, and end date from the front end
+      const locationId = document.getElementById('locationId').value;
+      const startDate = document.getElementById('startDate').value;
+      const endDate = document.getElementById('endDate').value;
+
+      // create an object to hold the query parameters
+      const queryParams = {
+      locationId: locationId,
+      startDate: startDate,
+      endDate: endDate
+      };
+
+      // create the url with the query parameters
+      const url = new URL('http://localhost:3306/top_customers');
+      url.search = new URLSearchParams(queryParams).toString();
+
+      // fetch the data from the server
+      fetch(url)
+      .then(response => response.json())
+      .then(data => {
+      // process the data
+      console.log(data);
+    })
+    .catch(error => {
+      console.error(error);
+    });
+    </script>
+  </body>
+</html>

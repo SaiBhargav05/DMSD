@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>Edit Service Price</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+      }
+      
+      h1 {
+        text-align: center;
+      }
+      
+      form {
+        display: flex;
+        flex-direction: column;
+        max-width: 500px;
+        margin: auto;
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+      }
+      
+      label {
+        margin-bottom: 10px;
+      }
+      
+      input[type="text"], input[type="number"] {
+        padding: 5px;
+        margin-bottom: 20px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+      }
+      
+      input[type="submit"] {
+        background-color: #4CAF50;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+      
+      input[type="submit"]:hover {
+        background-color: #3e8e41;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Edit Service Price</h1>
+    <form onsubmit="event.preventDefault(); updateServicePrice(serviceType.value, vehicleType.value, newPrice.value)">
+      <label for="serviceType">Service Type:</label>
+      <input type="text" id="serviceType" name="serviceType" required>
+      <label for="vehicleType">Vehicle Type:</label>
+      <input type="text" id="vehicleType" name="vehicleType" required>
+      <label for="newPrice">New Price:</label>
+      <input type="number" id="newPrice" name="newPrice" required>
+      <input type="submit" value="Update Service Price">
+    </form>
+    <script>
+      // Function to update service price
+      function updateServicePrice(serviceType, vehicleType, newPrice) {
+        // Create the request URL
+        const url = 'http://localhost:3306/update-service-price';
+
+        // Create the request body
+        const requestBody = {
+          service_type: serviceType,
+          V_type: vehicleType,
+          service_price: newPrice
+        };
+
+        // Send the PUT request using fetch
+        fetch(url, {
+          method: 'PUT',
+          body: JSON.stringify(requestBody),
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        })
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+          return response.json();
+        })
+        .then(data => {
+          console.log(data);
+          alert('Service price updated successfully');
+        })
+        .catch(error => {
+          console.error('There was an error updating the service price:', error);
+          alert('There was an error updating the service price');
+        });
+      }
+    </script>
+  </body>
+</html>

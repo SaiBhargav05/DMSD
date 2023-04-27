@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Services Offered</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+    }
+    h1 {
+      text-align: center;
+    }
+    ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+    li {
+      padding: 10px;
+      border: 1px solid #ccc;
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Services Offered</h1>
+  <ul id="services-list"></ul>
+  <script>
+    function showServices() {
+      // Make a GET request to the Flask API endpoint
+      fetch('http://localhost:3306/services/update')
+        .then(response => response.json())
+        .then(data => {
+          // Extract the list of services from the response data
+          const services = data.services;
+
+          // Display the list of services on the page
+          const servicesList = document.getElementById('services-list');
+          servicesList.innerHTML = '';
+          services.forEach(service => {
+            const listItem = document.createElement('li');
+            listItem.textContent = `${service.service_type} (${service.V_type}): $${service.service_price}`;
+            servicesList.appendChild(listItem);
+          });
+        })
+        .catch(error => console.error('Error:', error));
+    }
+
+    // Call the showServices function to display the list of services on page load
+    showServices();
+  </script>
+</body>
+</html>
+

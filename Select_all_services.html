@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Select All Services</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+      }
+
+      header {
+        background-color: #333;
+        color: #fff;
+        padding: 1rem;
+        text-align: center;
+      }
+
+      #services-container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 1rem;
+      }
+
+      ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+
+      li {
+        margin-bottom: 0.5rem;
+      }
+
+      li::before {
+        content: "\u2610 ";
+        font-size: 1.2rem;
+      }
+
+      li.selected::before {
+        content: "\u2611 ";
+        color: #007bff;
+      }
+    </style>
+  </head>
+
+  <body>
+    <header>
+      <h1>Select All Services</h1>
+    </header>
+
+    <div id="services-container"></div>
+
+    <script>
+      fetch("http://localhost:3306/services")
+        .then(response => response.json())
+        .then(services => {
+          const servicesList = document.createElement("ul");
+
+          services.forEach(service => {
+            const serviceItem = document.createElement("li");
+            serviceItem.textContent = `${service.service_type} - ${service.V_type}: $${service.service_price}`;
+            servicesList.appendChild(serviceItem);
+
+            // Add event listener to toggle selected class on click
+            serviceItem.addEventListener("click", () => {
+              serviceItem.classList.toggle("selected");
+            });
+          });
+
+          document.getElementById("services-container").appendChild(servicesList);
+        })
+        .catch(error => console.error(error));
+    </script>
+  </body>
+</html>

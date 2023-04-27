@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Average Revenue by Vehicle Type</title>
+    <style>
+      /* CSS code for styling the page */
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+      }
+      .container {
+        max-width: 600px;
+        margin: 0 auto;
+        padding: 20px;
+        box-sizing: border-box;
+      }
+      h1 {
+        text-align: center;
+      }
+      label {
+        display: block;
+        margin-bottom: 10px;
+      }
+      input {
+        width: 100%;
+        padding: 10px;
+        box-sizing: border-box;
+        border: 2px solid #ccc;
+        border-radius: 4px;
+        font-size: 16px;
+      }
+      button {
+        background-color: #4CAF50;
+        color: white;
+        padding: 12px 20px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        width: 100%;
+        font-size: 16px;
+      }
+      button:hover {
+        background-color: #45a049;
+      }
+      #result {
+        margin-top: 20px;
+        font-size: 18px;
+        font-weight: bold;
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Average Revenue by Vehicle Type</h1>
+      <label for="vehicle-type">Vehicle Type:</label>
+      <input type="text" id="vehicle-type" placeholder="Enter vehicle type">
+      <label for="location-state">Location:</label>
+      <input type="text" id="location-state" placeholder="Enter location">
+      <button onclick="getAverageRevenue()">Calculate</button>
+      <div id="result"></div>
+    </div>
+    <script>
+      // Function to get the average revenue generated in locations by vehicle type
+      function getAverageRevenue() {
+        // Get the values of the inputs
+        const vType = document.getElementById('vehicle-type').value;
+        const state = document.getElementById('location-state').value;
+        
+        // Make a fetch request to the server
+        fetch(`http://localhost:3306/average-revenue/<start_date>/<end_date>`)
+          .then(response => response.json())
+          .then(data => {
+            // Get the average revenue from the response data
+            const avgRevenue = data.averageRevenue;
+
+            // Display the average revenue on the webpage
+            const resultElement = document.getElementById('result');
+            resultElement.innerHTML = `Average revenue generated in ${state} by ${vType}: $${avgRevenue.toFixed(2)}`;
+          })
+          .catch(error => {
+            console.error(error);
+            // Display an error message on the webpage if there was an error
+            const resultElement = document.getElementById('result');
+            resultElement.innerHTML = 'Error getting average revenue.';
+          });
+      }
+    </script>
+  </body>
+</html>
